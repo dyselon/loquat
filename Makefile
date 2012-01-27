@@ -1,9 +1,9 @@
-server.exe : deps/uv/uv.a deps/lua/?
-	gcc \
-		-Ideps/uv/include -Ideps/lua/src lua/src/liblua.a libuv/uv.a -lws2_32
+loquat.dll : deps/uv/uv.a deps/lua/src/liblua.a
+	gcc -shared -o loquat.dll \
+		-Ideps/uv/include -Ideps/lua/src deps/lua/src/liblua.a deps/uv/uv.a -lws2_32
 	
-libuv/uv.a:
+deps/uv/uv.a:
 	$(MAKE) -C deps/uv
 	
-lua/src/liblua.a:
+deps/lua/src/liblua.a:
 	$(MAKE) -C deps/lua mingw

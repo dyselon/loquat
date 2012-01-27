@@ -1,2 +1,6 @@
 *.o
 *.a
+*.dll
+
+deps/lua/src/*.exe
+deps/lua/src/*.dll
