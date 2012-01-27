@@ -4,3 +4,7 @@
 
 deps/lua/src/*.exe
 deps/lua/src/*.dll
+
+lua.exe
+lua52.dll
+test.lua

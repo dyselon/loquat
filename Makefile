@@ -1,6 +1,14 @@
-loquat.dll : deps/uv/uv.a deps/lua/src/liblua.a
-	gcc -shared -o loquat.dll \
-		-Ideps/uv/include -Ideps/lua/src deps/lua/src/liblua.a deps/uv/uv.a -lws2_32
+LDFLAGS = -lws2_32
+
+loquat.dll : loquat.o deps/uv/uv.a deps/lua/src/liblua.a
+	gcc loquat.o -shared -o loquat.dll \
+		-DBUILDDLL \
+		deps/lua/src/liblua.a deps/uv/uv.a \
+		
+loquat.o: src/loquat.c src/loquat.h
+	gcc -c src/loquat.c \
+		-DBUILDDLL \
+		-Ideps/uv/include -Ideps/lua/src \
 	
 deps/uv/uv.a:
 	$(MAKE) -C deps/uv
