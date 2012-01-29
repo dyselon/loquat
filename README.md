@@ -13,6 +13,8 @@ When finished, Loquat should support a pretty extensive subset of libuv's featur
 * UDP
 * File I/O
 * Timers
+* Child processes
+* Support for multiple concurrent event loops
 * And I don't know, mabye more stuff
 
 Some Examples
@@ -35,6 +37,8 @@ end
 
 local client = loquat.tcp("127.0.0.1", 8000, onconnect)
 client.connect()
+
+loquat.run()
 ```
 
 Starting a TCP server
@@ -54,7 +58,11 @@ end
 
 local server = loquat.tcp("127.0.0.1", 8000, onconnection)
 server.listen()
+
+loquat.run()
 ```
+
+### Timers
 
 Here's a timer example that uses coroutines
 ``` lua
@@ -74,8 +82,8 @@ local function printstuff()
   print("A second later")
   wait(4000)
   print("Now five seconds")
-  wait(2000)
-  print("7 seconds total!")
+  wait(2500)
+  print("7.5 seconds total!")
 end
 
 local function coresume(coro)
@@ -87,6 +95,8 @@ end
 
 local coro = coroutine.create(printstuff)
 coresume(coro)
+
+loquat.run()
 ```
 
 Requirements

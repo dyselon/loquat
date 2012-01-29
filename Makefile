@@ -1,5 +1,5 @@
 LDFLAGS = -lIphlpapi -lws2_32 -lpsapi
-OBJECTS = src/tcpsocket.o
+OBJECTS = src/tcpsocket.o src/timer.o
 
 loquat.dll : $(OBJECTS) src/loquat.o deps/uv/uv.a deps/lua/src/liblua.a
 	gcc src/loquat.o $(OBJECTS) -shared -o loquat.dll \
