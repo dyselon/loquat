@@ -2,6 +2,7 @@
 #include "lauxlib.h"
 #include "lualib.h"
 #include "timer.h"
+#include "loqmem.h"
 #include "uv.h"
 #include <stdlib.h>
 
@@ -11,16 +12,23 @@ typedef struct {
 } loq_timer_t;
 
 static void timer_cb(uv_timer_t* handle, int status);
+static void timer_close_cb(uv_handle_t* handle);
 
 int loq_timer(lua_State *L)
 {
   int time = luaL_checkinteger(L, 1);
+  int r = 0;
   
   uv_loop_t* loop = uv_default_loop();
   
   // Create a timer callback and fill it up with what we need.
-  loq_timer_t *timer = (loq_timer_t*)malloc(sizeof(loq_timer_t));
-  uv_timer_init(loop, &timer->handle);
+  loq_timer_t *timer = (loq_timer_t*)loq_malloc(sizeof(loq_timer_t));
+  r = uv_timer_init(loop, &timer->handle);
+  if(r) {
+    loq_free(timer);
+    uv_err_t err = loop->last_err;
+    return luaL_error(L, uv_strerror(err));
+  }
   timer->L = L;
   timer->handle.data = timer;
   
@@ -30,15 +38,19 @@ int loq_timer(lua_State *L)
   lua_rawset(L, LUA_REGISTRYINDEX);
   
   // Tell uv we want the timer to start
-  uv_timer_start(&timer->handle, timer_cb, time, 0);
+  r = uv_timer_start(&timer->handle, timer_cb, time, 0);
+  if(r) {
+    uv_close((uv_handle_t*)&timer->handle, timer_close_cb);
+    uv_err_t err = loop->last_err;
+    return luaL_error(L, uv_strerror(err));
+  }
   
   return 0;
 }
 
 static void timer_close_cb(uv_handle_t* handle) {
-  printf("Close callback\n");
   loq_timer_t *timer = (loq_timer_t*)handle->data;
-  free(timer);
+  loq_free(timer);
 }
 
 static void timer_cb(uv_timer_t* handle, int status)

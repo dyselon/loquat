@@ -26,16 +26,16 @@ Connecting to a TCP server
 ``` lua
 local loquat = require("loquat")
 
-local function onconnect(socket)
-  socket.recv(function(data)
+local function onconnect(err, socket)
+  socket:onread(function(data)
     print("Got a response! " .. data)
-    socket.close()
+    socket:close()
   end)
   
-  socket.send("Hey, here's some stuff!")
+  socket:write("Hey, here's some stuff!")
 end
 
-local client = loquat.tcp("127.0.0.1", 8000, onconnect)
+local client = loquat.tcpconnection("127.0.0.1", 8000, onconnect)
 client.connect()
 
 loquat.run()
