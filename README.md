@@ -1,6 +1,8 @@
 Loquat
 ======
-Loquat is a binding of libuv for Lua 5.2 (and maybe eventually 5.1, too)
+Loquat is a binding of libuv for Lua 5.2
+
+This project is just getting off the ground, so a lot of things don't work. I'm trying this whole Readme Driven Development thing, which means a lot of this document reflects how I would *like* things to look rather than how they actually do. My apologies about any confusion.
 
 Introduction
 ------------
@@ -9,13 +11,19 @@ Loquat wraps the excellent [libuv](https://github.com/joyent/libuv) library, and
 Features
 --------
 When finished, Loquat should support a pretty extensive subset of libuv's features, such as
-* TCP
-* UDP
-* File I/O
-* Timers
-* Child processes
-* Support for multiple concurrent event loops
-* And I don't know, mabye more stuff
+ * TCP
+ * UDP
+ * File I/O
+ * Timers
+ * Child processes
+ * Support for multiple concurrent event loops
+ * And I don't know, mabye more stuff
+
+Currently Actually Working To Some Extent Or Another
+----------------------------------------------------
+ * Outgoing TCP Connections
+ * Timers
+ * DNS lookup
 
 Some Examples
 -------------
@@ -106,4 +114,4 @@ To use loquat, you need a Lua 5.2 interperter, and the Loquat library.
 
 You can download the Windows .dll from http://loquat.dyselon.com/files/loquat-win.zip
 
-Building Loquat should be as easy as running make, but I don't know shit about writing 
+Building Loquat should be as easy as running make, but I don't know shit about writing makefiles. Right now it only builds for mingw. Sorry about that. 
