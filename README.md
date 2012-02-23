@@ -11,6 +11,7 @@ Loquat wraps the excellent [libuv](https://github.com/joyent/libuv) library, and
 Features
 --------
 When finished, Loquat should support a pretty extensive subset of libuv's features, such as
+
  * TCP
  * UDP
  * File I/O
@@ -31,7 +32,8 @@ Some Examples
 ### TCP
 
 Connecting to a TCP server
-``` lua
+
+```lua
 local loquat = require("loquat")
 
 local function onconnect(err, socket)
@@ -49,8 +51,11 @@ client.connect()
 loquat.run()
 ```
 
+
 Starting a TCP server
-``` lua
+(note: ain't done this yet)
+
+```lua
 local loquat = require("loquat")
 
 local function onconnection(socket)
@@ -73,7 +78,8 @@ loquat.run()
 ### Timers
 
 Here's a timer example that uses coroutines
-``` lua
+
+```lua
 local loquat = require("loquat")
 
 local function wait(ms)
